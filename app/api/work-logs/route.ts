@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
+import type { RowDataPacket } from "mysql2";
 import pool from "@/lib/db";
 import { requireApiAuth } from "@/lib/auth-server";
 
-type WorkLogRow = {
+type WorkLogRow = RowDataPacket & {
   id: number;
   project_id: number;
   work_date: string;

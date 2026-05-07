@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
+import type { RowDataPacket } from "mysql2";
 import pool from "@/lib/db";
 import { requireApiAuth } from "@/lib/auth-server";
 
-type Project = {
+type Project = RowDataPacket & {
   id: number;
   project_name: string;
   client_name: string;
@@ -63,4 +64,3 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }
-

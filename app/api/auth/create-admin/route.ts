@@ -1,9 +1,10 @@
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
+import type { RowDataPacket } from "mysql2";
 import pool from "@/lib/db";
 
-type CountRow = { total: number };
-type AdminRow = { id: number };
+type CountRow = RowDataPacket & { total: number };
+type AdminRow = RowDataPacket & { id: number };
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -58,4 +59,3 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }
-

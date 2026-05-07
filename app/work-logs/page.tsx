@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import type { RowDataPacket } from "mysql2";
 import { AUTH_COOKIE_NAME, verifyAuthToken } from "@/lib/auth";
 import pool from "@/lib/db";
 import WorkLogsClient, { type WorkLog } from "@/app/work-logs/work-logs-client";
@@ -8,6 +9,8 @@ type Project = {
   id: number;
   project_name: string;
 };
+type ProjectRow = RowDataPacket & Project;
+type WorkLogRow = RowDataPacket & WorkLog;
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -26,11 +29,11 @@ export default async function WorkLogsPage() {
     redirect("/login");
   }
 
-  const [projects] = await pool.query<Project[]>(
+  const [projects] = await pool.query<ProjectRow[]>(
     "SELECT id, project_name FROM projects ORDER BY project_name ASC"
   );
 
-  const [workLogs] = await pool.query<WorkLog[]>(
+  const [workLogs] = await pool.query<WorkLogRow[]>(
     `SELECT wl.id, wl.project_id, DATE_FORMAT(wl.work_date, '%Y-%m-%d') AS work_date, wl.work_title, wl.description, wl.hours, p.project_name
      FROM work_logs wl
      INNER JOIN projects p ON p.id = wl.project_id

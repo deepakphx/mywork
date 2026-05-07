@@ -1,9 +1,10 @@
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
+import type { RowDataPacket } from "mysql2";
 import pool from "@/lib/db";
 import { requireApiAuth } from "@/lib/auth-server";
 
-type SettingRow = { reveal_password_hash: string | null };
+type SettingRow = RowDataPacket & { reveal_password_hash: string | null };
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -57,4 +58,3 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }
-
