@@ -5,7 +5,7 @@ export async function requireApiAuth() {
   const cookieStore = await cookies();
   const token = cookieStore.get(AUTH_COOKIE_NAME)?.value;
   if (!token) {
-    throw new Error("UNAUTHORIZED");
+    throw new Error("UNAUTHORIZED");     
   }
 
   try {
