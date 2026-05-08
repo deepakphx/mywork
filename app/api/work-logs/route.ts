@@ -44,17 +44,19 @@ export async function POST(request: Request) {
       work_date?: string;
       work_title?: string;
       description?: string;
-      hours?: number | null;
+      hours?: number | string | null;
     };
 
     const projectId = Number(body.project_id);
     const workDate = body.work_date?.trim();
     const workTitle = body.work_title?.trim();
     const description = body.description?.trim() ?? "";
+    const hoursValue =
+      typeof body.hours === "string" ? body.hours.trim() : body.hours;
     const hours =
-      body.hours === null || body.hours === undefined || body.hours === ""
+      hoursValue === null || hoursValue === undefined || hoursValue === ""
         ? null
-        : Number(body.hours);
+        : Number(hoursValue);
 
     if (!Number.isInteger(projectId) || projectId <= 0) {
       return NextResponse.json({ ok: false, error: "Valid project_id is required" }, { status: 400 });

@@ -10,7 +10,11 @@ export type Project = {
   status: "active" | "completed";
 };
 
-const initialForm = { project_name: "", client_name: "", status: "active" as const };
+const initialForm: {
+  project_name: string;
+  client_name: string;
+  status: Project["status"];
+} = { project_name: "", client_name: "", status: "active" };
 
 export default function ProjectsClient({ initialProjects }: { initialProjects: Project[] }) {
   const [projects, setProjects] = useState<Project[]>(initialProjects);
@@ -203,4 +207,3 @@ export default function ProjectsClient({ initialProjects }: { initialProjects: P
     </div>
   );
 }
-
